@@ -5,4 +5,4 @@ execute "testing" do
 end
 
 #require_recipe 'tokyo'
-require_recipe 'redis'
+require_recipe 'mongodb'
