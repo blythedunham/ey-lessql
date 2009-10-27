@@ -20,4 +20,3 @@ stop() {
 	start-stop-daemon --stop --quiet --exec /usr/local/mongodb/bin/mongod
 	eend $?
 }
-
