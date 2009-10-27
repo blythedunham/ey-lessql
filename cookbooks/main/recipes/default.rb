@@ -5,4 +5,7 @@ execute "testing" do
 end
 
 #require_recipe 'tokyo'
-require_recipe 'mongodb'
+
+if node[:instance_role] == 'db_master'
+ require_recipe 'mongodb'
+end
