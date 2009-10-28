@@ -6,6 +6,6 @@ end
 
 #require_recipe 'tokyo'
 
-if node[:instance_role] == 'db_master'
- require_recipe 'mongodb'
+if %w(solo db_master).include?(node[:instance_role])
+  require_recipe 'mongodb'
 end
