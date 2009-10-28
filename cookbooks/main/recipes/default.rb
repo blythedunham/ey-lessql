@@ -1,10 +1,8 @@
 
-execute "Log stuff" do
-   Chef::Log.info("Instance node #{node[:instance_role]}")
-   Chef::Log.info(node.inspect.to_s)
-end
 
-#require_recipe 'tokyo'
+
+Chef::Log.info("Instance node #{node[:instance_role]}")
+Chef::Log.info(node.inspect)
 
 if %w(util).include?(node[:instance_role])
   require_recipe 'mongodb'
