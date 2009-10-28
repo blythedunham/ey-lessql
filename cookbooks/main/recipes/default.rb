@@ -1,5 +1,5 @@
 
-execute "My ROLE IS: #{node[:instance_role]}" do
+execute "Log stuff" do
    Chef::Log.info("Instance node #{node[:instance_role]}")
    Chef::Log.info(node.inspect.to_s)
 end
