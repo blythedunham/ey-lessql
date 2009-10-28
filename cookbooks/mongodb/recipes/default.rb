@@ -28,8 +28,8 @@ node[:applications].each do |app_name, data|
     group user[:username]
     mode 0744
     variables({
-      :host => node[:ec2]['public_hostname'],
-      :port => '',
+      :mongodb_host => node[:ec2]['public_hostname'],
+      :mongodb_port => '',
     })
   end
 end
