@@ -4,8 +4,11 @@ execute "testing" do
   }
 end
 
+
+execute "My ROLE IS: #{node[:instance_rode]}"
+  command %Q{ echo "My role is #{node[:instance_rode]}" }
 #require_recipe 'tokyo'
 
-if %w(solo db_master).include?(node[:instance_role])
+if %w(util).include?(node[:instance_role])
   require_recipe 'mongodb'
 end
