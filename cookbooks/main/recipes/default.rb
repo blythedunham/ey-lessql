@@ -1,7 +1,7 @@
 
-execute "My ROLE IS: #{node[:instance_node]}" do
-   Chef::Log.info("Instance node #{node[:instance_node]}")
-   Chef::Log.info(node.inspect)
+execute "My ROLE IS: #{node[:instance_role]}" do
+   Chef::Log.info("Instance node #{node[:instance_role]}")
+   Chef::Log.info(node.inspect.to_s)
 end
 
 #require_recipe 'tokyo'
