@@ -17,15 +17,18 @@ directory "/data/slave" do
   recursive true
 end
 
-template "/data/#{app_name}/shared/config/keep.database.yml" do
-  source "mongodb.yml.erb"
-  owner user[:username]
-  group user[:username]
-  mode 0744
-  variables({
-    :host => node[:ec2][:public_hostname],
-    :port => '',
-  })
+node[:applications].each do |app_name, data|
+
+  template "/data/#{app_name}/shared/config/keep.database.yml" do
+    source "mongodb.yml.erb"
+    owner user[:username]
+    group user[:username]
+    mode 0744
+    variables({
+      :host => node[:ec2][:public_hostname],
+      :port => '',
+    })
+  end
 end
 
 execute "install-mongodb" do
