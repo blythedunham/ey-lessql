@@ -1,8 +1,7 @@
 
-execute "My ROLE IS: #{node[:instance_rode]}" do
-  command %Q{
-    echo "i ran at #{Time.now} at #{node[:instance_rode]}"
-  }
+execute "My ROLE IS: #{node[:instance_node]}" do
+   Chef::Log.info("Instance node #{node[:instance_node]}")
+   Chef::Log.info(node.inspect)
 end
 
 #require_recipe 'tokyo'
