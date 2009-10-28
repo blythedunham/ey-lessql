@@ -17,6 +17,17 @@ directory "/data/slave" do
   recursive true
 end
 
+template "/data/#{app_name}/shared/config/keep.database.yml" do
+  source "mongodb.yml.erb"
+  owner user[:username]
+  group user[:username]
+  mode 0744
+  variables({
+    :host => node[:ec2][:public_hostname],
+    :port => '',
+  })
+end
+
 execute "install-mongodb" do
   command %Q{
     curl -O http://downloads.mongodb.org/linux/mongodb-linux-i686-1.0.1.tgz &&
