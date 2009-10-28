@@ -18,6 +18,7 @@ directory "/data/slave" do
 end
 
 node[:applications].each do |app_name, data|
+  user = node[:users].first
 
   template "/data/#{app_name}/shared/config/keep.database.yml" do
     source "mongodb.yml.erb"
