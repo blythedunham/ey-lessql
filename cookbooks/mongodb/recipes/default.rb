@@ -26,7 +26,7 @@ node[:applications].each do |app_name, data|
     group user[:username]
     mode 0744
     variables({
-      :host => node[:ec2][:public_hostname],
+      :host => node['ec2']['public_hostname'],
       :port => '',
     })
   end
