@@ -75,8 +75,9 @@ execute "install-mongodb" do
     rm #{tar_file}
   }
 
-  not_if { File.directory?('/usr/local/#{file_name}') }
+  not_if { File.directory?("/usr/local/#{file_name}") }
 end
+
 
 #execute "install-mongodb-64" do
 
