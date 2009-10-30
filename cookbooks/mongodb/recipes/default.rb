@@ -32,7 +32,7 @@ node[:applications].each do |app_name, data|
     not_if {!File.exists? "/data/#{app_name}/shared/config/"}
   end
 
-  link  do "/data/#{app_name}/current/config/mongodb.yml"
+  link "/data/#{app_name}/current/config/mongodb.yml" do
     to "/data/#{app_name}/shared/config/mongodb.yml"
     not_if { !File.exists? "/data/#{app_name}/shared/config/mongodb.yml" }
   end
