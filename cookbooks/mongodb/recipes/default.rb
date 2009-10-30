@@ -6,7 +6,7 @@
 node[:applications].each do |app_name, data|
   user = node[:users].first
 
-  Chef::Log.info("NODE: #{node.to_yaml}")
+  Chef::Log.info("NODE: #{node.to_yaml}") if %w(util).include?(node[:instance_role])
   environments = %w(production benchmarking test development)
   environments << (node[:environment][:framework]).to_s unless node[:environment][:framework].blank?
 
@@ -29,16 +29,15 @@ node[:applications].each do |app_name, data|
       :mongodb_port => '',
       :environments => environments.uniq
     })
+    not_if {!File.exists? "/data/#{app_name}/shared/config/"}
   end
 
-  unless %w(util).include?(node[:instance_role])
-    link  do "/data/#{app_name}/current/config/mongodb.yml"
-      to "/data/#{app_name}/shared/config/mongodb.yml"
-      not_if { !File.exists? "/data/#{app_name}/shared/config/mongodb.yml" }
-    end
+  link  do "/data/#{app_name}/current/config/mongodb.yml"
+    to "/data/#{app_name}/shared/config/mongodb.yml"
+    not_if { !File.exists? "/data/#{app_name}/shared/config/mongodb.yml" }
   end
+
 end
-
 
 if %w(util).include?(node[:instance_role])
 
