@@ -31,7 +31,16 @@ node[:applications].each do |app_name, data|
     })
   end
 end
-if %w(util).include?(node[:instance_role])
+
+
+unless %w(util).include?(node[:instance_role])
+  
+  link  do "/data/#{app}/current/config/mongodb.yml"
+    to "/data/#{app}/shared/config/mongodb.yml"
+  end
+
+else
+
 directory "/data/master" do
   owner node[:owner_name]
   group node[:owner_name]
