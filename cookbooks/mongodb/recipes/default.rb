@@ -35,8 +35,8 @@ end
 
 unless %w(util).include?(node[:instance_role])
   
-  link  do "/data/#{app}/current/config/mongodb.yml"
-    to "/data/#{app}/shared/config/mongodb.yml"
+  link  do "/data/#{app_name}/current/config/mongodb.yml"
+    to "/data/#{app_name}/shared/config/mongodb.yml"
   end
 
 else
