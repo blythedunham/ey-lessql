@@ -34,6 +34,7 @@ node[:applications].each do |app_name, data|
   unless %w(util).include?(node[:instance_role])
     link  do "/data/#{app_name}/current/config/mongodb.yml"
       to "/data/#{app_name}/shared/config/mongodb.yml"
+      not_if { !File.exists? "/data/#{app_name}/shared/config/mongodb.yml" }
     end
   end
 end
