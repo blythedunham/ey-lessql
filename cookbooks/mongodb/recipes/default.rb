@@ -30,16 +30,17 @@ node[:applications].each do |app_name, data|
       :environments => environments.uniq
     })
   end
+
+  unless %w(util).include?(node[:instance_role])
+    link  do "/data/#{app_name}/current/config/mongodb.yml"
+      to "/data/#{app_name}/shared/config/mongodb.yml"
+    end
+  end
 end
 
 
-unless %w(util).include?(node[:instance_role])
-  
-  link  do "/data/#{app_name}/current/config/mongodb.yml"
-    to "/data/#{app_name}/shared/config/mongodb.yml"
-  end
+if %w(util).include?(node[:instance_role])
 
-else
 
 directory "/data/master" do
   owner node[:owner_name]
