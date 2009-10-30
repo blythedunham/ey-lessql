@@ -1,7 +1,5 @@
-<% [:production, :benchmarking, :test, :development, @node[:environment][:framework].to_sym].each do |mongoenv| %>
+<% @environments.each do |mongoenv| %>
 <%= mongoenv %>:
   host: <%= @mongodb_host %>
   port:  <%= @mongodb_port %>
 <% end %>
-
-

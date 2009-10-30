@@ -21,7 +21,8 @@ node[:applications].each do |app_name, data|
   user = node[:users].first
 
   Chef::Log.info("NODE: #{node.to_yaml}")
-
+  environments = %w(production benchmarking test development)
+  environments << (@node[:environment][:framework]).to_s
   template "/data/#{app_name}/shared/config/mongodb.yml" do
     source "mongodb.yml.erb"
     owner user[:username]
@@ -30,6 +31,7 @@ node[:applications].each do |app_name, data|
     variables({
       :mongodb_host => node[:ec2]['public_hostname'],
       :mongodb_port => '',
+      :environments => environments.uniq
     })
   end
 end
