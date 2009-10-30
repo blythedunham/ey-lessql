@@ -6,7 +6,7 @@
 node[:applications].each do |app_name, data|
   user = node[:users].first
 
-  Chef::Log.info("NODE: #{node.to_yaml}") if %w(util).include?(node[:instance_role])
+  #Chef::Log.info("NODE: #{node.to_yaml}") if %w(util).include?(node[:instance_role])
   environments = %w(production benchmarking test development)
   environments << (node[:environment][:framework]).to_s unless node[:environment][:framework].blank?
 
