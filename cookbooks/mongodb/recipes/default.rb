@@ -56,15 +56,26 @@ directory "/data/slave" do
   recursive true
 end
 
-
 execute "install-mongodb" do
+  mongo_version = "1.0.1"
+  mongo_install = "http://downloads.mongodb.org/linux/"
+  #http://downloads.mongodb.org/linux/mongodb-linux-x86_64-1.0.1.tgz
+
+  file_name = "mongodb-linux-#{node[:kernel][:machine]}-#{mongo_version}"
+  tar_file = "#{file_name}.tgz"
+  mongo_install_dir = "http://downloads.mongodb.org/linux/#{tar_file}"
+
+  Chef::Log.info( "Install for #{node[:kernel][:machine]} from #{mongo_install_dir}" )
+
   command %Q{
-    curl -O http://downloads.mongodb.org/linux/mongodb-linux-i686-1.0.1.tgz &&
-    tar zxvf mongodb-linux-i686-1.0.1.tgz &&
-    mv mongodb-linux-i686-1.0.1 /usr/local/mongodb &&
-    rm mongodb-linux-i686-1.0.1.tgz
+    curl -O #{mongo_install_dir} &&
+    tar zxvf #{tar_file} &&
+    mv #{file_name} /usr/local/#{file_name} &&
+    ln -s /usr/local/#{file_name} /usr/local/mongodb &&
+    rm #{file_name}
   }
-  not_if { File.directory?('/usr/local/mongodb') }
+
+  not_if { File.directory?('/usr/local/#{file_name}') }
 end
 
 #execute "install-mongodb-64" do
