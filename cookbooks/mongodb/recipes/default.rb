@@ -72,7 +72,7 @@ execute "install-mongodb" do
     tar zxvf #{tar_file} &&
     mv #{file_name} /usr/local/#{file_name} &&
     ln -s /usr/local/#{file_name} /usr/local/mongodb &&
-    rm #{file_name}
+    rm #{tar_file}
   }
 
   not_if { File.directory?('/usr/local/#{file_name}') }
