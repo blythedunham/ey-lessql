@@ -3,6 +3,35 @@
 # Recipe:: default
 
 
+node[:applications].each do |app_name, data|
+  user = node[:users].first
+
+  Chef::Log.info("NODE: #{node.to_yaml}")
+  environments = %w(production benchmarking test development)
+  environments << (node[:environment][:framework]).to_s unless node[:environment][:framework].blank?
+
+
+  utility_instance = node[:utility_instances].detect{ |util|
+    util['name'] == 'mongodb'
+  } if node[:utility_instances]
+
+  mongohost = utility_instance['hostname'] if utility_instance
+  mongohost ||= node[:db_host]
+
+  #:mongodb_host => node[:ec2]['public_hostname'],
+  template "/data/#{app_name}/shared/config/mongodb.yml" do
+    source "mongodb.yml.erb"
+    owner user[:username]
+    group user[:username]
+    mode 0744
+    variables({
+      :mongodb_host => mongohost,
+      :mongodb_port => '',
+      :environments => environments.uniq
+    })
+  end
+end
+if %w(util).include?(node[:instance_role])
 directory "/data/master" do
   owner node[:owner_name]
   group node[:owner_name]
@@ -17,24 +46,6 @@ directory "/data/slave" do
   recursive true
 end
 
-node[:applications].each do |app_name, data|
-  user = node[:users].first
-
-  Chef::Log.info("NODE: #{node.to_yaml}")
-  environments = %w(production benchmarking test development)
-  environments << (@node[:environment][:framework]).to_s
-  template "/data/#{app_name}/shared/config/mongodb.yml" do
-    source "mongodb.yml.erb"
-    owner user[:username]
-    group user[:username]
-    mode 0744
-    variables({
-      :mongodb_host => node[:ec2]['public_hostname'],
-      :mongodb_port => '',
-      :environments => environments.uniq
-    })
-  end
-end
 
 execute "install-mongodb" do
   command %Q{
@@ -90,6 +101,6 @@ execute "ensure-mongodb-is-running" do
   }
   not_if "pgrep mongod"
 end
-
+end
 
 
