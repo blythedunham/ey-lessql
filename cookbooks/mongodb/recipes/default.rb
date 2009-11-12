@@ -32,8 +32,10 @@ node[:applications].each do |app_name, data|
     not_if {!File.exists? "/data/#{app_name}/shared/config/"}
   end
 
-  link "/data/#{app_name}/current/config/mongodb.yml" do
-    to "/data/#{app_name}/shared/config/mongodb.yml"
+  Chef::Log.info( "Linking /data/#{app_name}/shared/config/mongodb.yml" )
+
+  link "/data/#{app_name}/shared/config/mongodb.yml" do
+    to "/data/#{app_name}/current/config/mongodb.yml"
     not_if { !File.exists? "/data/#{app_name}/shared/config/mongodb.yml" }
   end
 
@@ -99,6 +101,7 @@ end
   
 #execute "install-mongomapper" do
 #  command %Q{
+#    gem install mongo_ext --source http://gemcutter.org
 #    gem install jnunemaker-mongomapper --source http://gems.github.com
 #  }
 #end
